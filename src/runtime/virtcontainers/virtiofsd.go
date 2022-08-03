@@ -174,6 +174,7 @@ func (v *virtiofsd) Umount(mountpoint string) error {
 
 func (v *virtiofsd) args(FdSocketNumber uint) ([]string, error) {
 
+	/*
 	args := []string{
 		// Send logs to syslog
 		"--syslog",
@@ -188,6 +189,18 @@ func (v *virtiofsd) args(FdSocketNumber uint) ([]string, error) {
 		fmt.Sprintf("--fd=%v", FdSocketNumber),
 		// foreground operation
 		"-f",
+	}
+	*/
+
+	args := []string{
+		// Send logs to syslog
+		"--syslog",
+		// cache mode for virtiofsd
+		"--cache=" + v.cache,
+		// shared directory tree
+		"--shared-dir=" + v.sourcePath,
+		// fd number of vhost-user socket
+		fmt.Sprintf("--fd %v", FdSocketNumber),
 	}
 
 	if len(v.extraArgs) != 0 {
